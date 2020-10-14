@@ -1,0 +1,16 @@
+.iconMoseOver {
+    background-color: cornflowerblue;
+}
+
+nav a {
+    text-decoration-line: none;
+    padding: 3px;
+}
+
+.withBold {
+    font-weight: bold;
+}
+
+.withBorder {
+    border: 2px black solid;
+}

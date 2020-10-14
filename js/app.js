@@ -16,11 +16,10 @@ class InteractiveIcon extends React.Component {
 
     render() {
         return (
-            <div>
-                <img onMouseLeave={this.setMouseLeaveBackground}
-                    onMouseEnter={this.setMouseOverBackground}
-                    src={this.props.iconURL} />
-            </div>
+            <img className="card-img-top" style={{ height: '18em', width: '18em' }}
+                onMouseLeave={this.setMouseLeaveBackground}
+                onMouseEnter={this.setMouseOverBackground}
+                src={this.props.iconURL} />
         );
     }
 }
@@ -29,10 +28,12 @@ class NavigationBar extends React.Component {
 
     render() {
         return (
-            <nav>
-                <MenuItem itemLabel="Services" />
-                <MenuItem itemLabel="Work" />
-                <MenuItem itemLabel="The team" />
+            <nav className="navbar navbar-expand">
+                <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <MenuItem itemLabel="Services" />
+                    <MenuItem itemLabel="Work" />
+                    <MenuItem itemLabel="The team" />
+                </ul>
             </nav>
         );
     }
@@ -53,7 +54,9 @@ class MenuItem extends React.Component {
 
     render() {
         return (
-            <a onClick={this.itemClicked} href="#">{this.props.itemLabel}</a>
+            <li className="nav-item">
+                <a className="nav-link"  onClick={this.itemClicked} href="#">{this.props.itemLabel}</a>
+            </li>
         );
     }
 }
@@ -77,7 +80,9 @@ class TextComponent extends React.Component {
     }
 
     render() {
-        return <div onMouseEnter={this.addBorder} >{this.props.text}</div>
+        return (
+            <div className="card-title" onMouseEnter={this.addBorder} >{this.props.text}</div>
+        )
     }
 }
 
@@ -85,9 +90,11 @@ class InteractiveComponent extends React.Component {
 
     render() {
         return (
-            <div>
-                <InteractiveIcon iconURL={this.props.iconURL} /><br />
-                <TextComponent text={this.props.text} />
+            <div className="card" style={{ width: '20em' }}>
+                <InteractiveIcon iconURL={this.props.iconURL} />
+                <div className="card-body" >
+                    <TextComponent text={this.props.text} />
+                </div>
             </div>
         );
     }
@@ -95,7 +102,7 @@ class InteractiveComponent extends React.Component {
 
 
 ReactDOM.render(
-    <div classNmae="container">
+    <div className="container">
         <NavigationBar />
         <section className="row">
             <InteractiveComponent className="col-sm" iconURL='images/uidesign.png' text='User Interface Design' />

@@ -55,7 +55,7 @@ class MenuItem extends React.Component {
     render() {
         return (
             <li className="nav-item">
-                <a className="nav-link"  onClick={this.itemClicked} href="#">{this.props.itemLabel}</a>
+                <a className="nav-link" onClick={this.itemClicked} href="#">{this.props.itemLabel}</a>
             </li>
         );
     }
@@ -91,24 +91,46 @@ class InteractiveComponent extends React.Component {
     render() {
         return (
             <div className="card" style={{ width: '20em' }}>
-                <InteractiveIcon iconURL={this.props.iconURL} />
+                <InteractiveIcon iconURL={this.props.state.iconURL} />
                 <div className="card-body" >
-                    <TextComponent text={this.props.text} />
+                    <TextComponent text={this.props.state.text} />
                 </div>
             </div>
         );
     }
 }
 
+class ServicesForm extends React.Component {
+
+    render() {
+        const state = [{
+            key: 1,
+            iconURL: 'images/uidesign.png',
+            text: 'User Interface Design'
+        },
+        {
+            key: 2,
+            iconURL: 'images/conceptideas.png',
+            text: 'Concept and Ideas'
+        },
+        {
+            key: 3,
+            iconURL: 'images/designbranding.png',
+            text: 'Design and Branding'
+        }];
+        return (
+            <div className="container">
+                <NavigationBar />
+                <section className="row">{
+                    state.map(item => (<InteractiveComponent className="col-sm" state={item} />))
+                }
+                </section>
+            </div>
+        );
+    }
+}
 
 ReactDOM.render(
-    <div className="container">
-        <NavigationBar />
-        <section className="row">
-            <InteractiveComponent className="col-sm" iconURL='images/uidesign.png' text='User Interface Design' />
-            <InteractiveComponent className="col-sm" iconURL='images/conceptideas.png' text='Concept and Ideas' />
-            <InteractiveComponent className="col-sm" iconURL='images/designbranding.png' text='Design and Branding' />
-        </section>
-    </div>,
+    <ServicesForm />,
     document.getElementById('app')
 );

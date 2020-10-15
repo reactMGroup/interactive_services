@@ -89,14 +89,38 @@ class TextComponent extends React.Component {
 class InteractiveComponent extends React.Component {
 
     render() {
+        const rating = Math.random() * 100;
         return (
             <div className="card" style={{ width: '20em' }}>
                 <InteractiveIcon iconURL={this.props.state.iconURL} />
                 <div className="card-body" >
                     <TextComponent text={this.props.state.text} />
                 </div>
+                <RatingWithStars rating={rating} />
+                {this.props.children}
             </div>
         );
+    }
+}
+
+class RatingWithStars extends React.Component {
+    render() {
+        const stars = [1, 2, 3, 4, 5];
+        const size = { width: "2rem" };
+        const colorRGB = '255,255,0';
+        const rating = this.props.rating ? this.props.rating : '0';
+        const background = {
+            backgroundImage: `linear-gradient(90deg, rgba(${colorRGB},1) ${rating}%, rgba(${colorRGB},0) 0, rgba(${colorRGB},0) 100%)`,
+            display: 'inline-block'
+        };
+        return (
+            <div>
+                <span style={background}>{
+                    stars.map(() => <img style={size} src="./images/star_transparent.png"></img>)
+                }
+                </span>
+            </div>
+        )
     }
 }
 
@@ -122,7 +146,7 @@ class ServicesForm extends React.Component {
             <div className="container">
                 <NavigationBar />
                 <section className="row">{
-                    state.map(item => (<InteractiveComponent className="col-sm" state={item} />))
+                    state.map(item => (<InteractiveComponent className="col-sm" state={item} ></InteractiveComponent>))
                 }
                 </section>
             </div>

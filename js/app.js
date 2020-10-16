@@ -1,3 +1,7 @@
+function getRandomID() {
+    return Math.random() * 100;
+}
+
 class InteractiveIcon extends React.Component {
 
     constructor() {
@@ -27,19 +31,75 @@ class InteractiveIcon extends React.Component {
 class NavigationBar extends React.Component {
 
     render() {
+        const menus = [
+            {
+                isSubMenu: true,
+                caption: 'File',
+                entries: [{
+                    url: '#',
+                    caption: 'Open...'
+                },
+                { isDivider: true },
+                {
+                    url: '#',
+                    caption: 'Save'
+                }]
+            },
+            { isDivider: true },
+            {
+                url: '#',
+                caption: 'Services'
+            },
+        ];
+
         return (
-            <nav className="navbar navbar-expand">
-                <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <MenuItem itemLabel="Services" />
-                    <MenuItem itemLabel="Work" />
-                    <MenuItem itemLabel="The team" />
-                </ul>
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <div className="collapse navbar-collapse" id="mainMenu">
+                    <ul className="navbar-nav">
+                        {menus.map(menu => {
+                            if (menu.isSubMenu) {
+                                return (<MenuListComponent menu={menu} />);
+                            } else {
+                                return (<li className="nav-item">
+                                    < MenuItemComponent item={menu} />
+                                </li>);
+                            }
+                        })
+                        }
+                    </ul>
+                </div>
             </nav>
         );
     }
 }
 
-class MenuItem extends React.Component {
+class MenuListComponent extends React.Component {
+    render() {
+        const componentID = "subMenu" + getRandomID();
+        return (
+            <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#" id={componentID} role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {this.props.menu.caption}
+                </a>
+                <div className="dropdown-menu" aria-labelledby={componentID}>
+                    {this.props.menu.entries
+                        .map(menu => {
+                            if (menu.isSubMenu) {
+                                return (
+                                    <MenuListComponent menu={menu} />
+                                );
+                            } else {
+                                return (< MenuItemComponent item={menu} />);
+                            }
+                        })}
+                </div>
+            </li>
+        );
+    }
+}
+
+
+class MenuItemComponent extends React.Component {
     constructor() {
         super();
         this.itemClicked = this.itemClicked.bind(this);
@@ -48,16 +108,19 @@ class MenuItem extends React.Component {
     itemClicked() {
         let clickedItem = ReactDOM.findDOMNode(this);
         Array.from(clickedItem.parentElement.childNodes)
-            .forEach(menuItem => menuItem.classList.remove('withBold'));
+            .forEach(MenuItemComponent => MenuItemComponent.classList.remove('withBold'));
         clickedItem.classList.add('withBold');
     }
 
     render() {
-        return (
-            <li className="nav-item">
-                <a className="nav-link" onClick={this.itemClicked} href="#">{this.props.itemLabel}</a>
-            </li>
-        );
+        const menu = this.props.item;
+        if (menu.isDivider) {
+            return (
+                <div className="dropdown-divider"></div>
+            )
+        } else {
+            return (<a className="nav-link dropdown-item" onClick={this.itemClicked} href={menu.url}>{menu.caption}</a>)
+        }
     }
 }
 
